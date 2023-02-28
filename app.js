@@ -114,6 +114,24 @@ app.post('/blogs', (req,res) => {
     })
 })
 
+
+
+app.delete('/blogs/:id', (req,res) => {
+    const id = req.params.id;
+
+    Blog.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/blogs' })    
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
+app.get('/blogs/create', (req, res) => {
+    res.render('create', { title: 'Create a new Blog' });
+}) 
+
 app.get('/blogs/:id', (req, res) => {
     const id = req.params.id;
     Blog.findById(id)
@@ -125,9 +143,6 @@ app.get('/blogs/:id', (req, res) => {
     })
 })
 
-app.get('/blogs/create', (req, res) => {
-    res.render('create', { title: 'Create a new Blog' });
-})
 
 // 404 page - this HAS to be at the bottom of the page otherwise express will match based on per list item
 app.use((req, res) => {
